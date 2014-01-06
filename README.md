@@ -71,13 +71,9 @@ Building
   
 2) Import as an Android project in your IDE of choice.  
   
-3) Download ActionBarSherlock and add it as a library project dependancy for Zones.  
-  
-4) Download Google Play Services and add it as a library project dependancy for Zones.  
-  
-5) Replace the Google Maps API key inside AndroidManifest.xml by following [this tutorial](https://developers.google.com/maps/documentation/android/start#the_google_maps_api_key)
+3) Replace the Google Maps API key inside AndroidManifest.xml by following [this tutorial](https://developers.google.com/maps/documentation/android/start#the_google_maps_api_key)
 
-6) Build & run!
+4) Build & run!
 
 License
 -------

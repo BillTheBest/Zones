@@ -14,8 +14,11 @@ lint.xml
 # generated files
 bin/
 gen/
+build/
+.gradle
 
 # Local configuration file (sdk path, etc)
+signing.properties
 local.properties
 .project
 .settings
