@@ -203,7 +203,7 @@ public class ZoneListActivity extends SherlockActivity implements
 
     databaseHelper.getZoneDatabase().setZoneSelected(((Integer) view.getTag(R.integer.zone_list_row_id_tag)).intValue(), true);
     view.setTag(R.integer.zone_list_row_select_tag, Boolean.TRUE);
-    view.setBackgroundResource(R.color.abs__holo_blue_light);
+    view.setBackgroundResource(R.color.holo_blue_light);
     select_count++;
 
     updateActionMode();

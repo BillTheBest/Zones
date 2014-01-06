@@ -75,7 +75,7 @@ public class ZoneCursorAdapter extends CursorAdapter {
       zoneDetailsView.setText(count + " actions ready at " + meters + "m away.");
 
     if(databaseHelper.getZoneDatabase().isZoneSelected(zone.getId()))
-      view.setBackgroundResource(R.color.abs__holo_blue_light);
+      view.setBackgroundResource(R.color.holo_blue_light);
     else
       view.setBackgroundResource(0);
 
