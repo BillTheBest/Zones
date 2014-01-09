@@ -1,81 +1,48 @@
 package org.anhonesteffort.polygons.map;
 
+import android.graphics.Rect;
 import android.location.Location;
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolygonOptions;
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.GeoPoint;
 import org.anhonesteffort.polygons.database.model.PointRecord;
 import org.anhonesteffort.polygons.database.model.ZoneRecord;
 
 public class GoogleGeometryFactory {
 
-  public static MarkerOptions buildMarkerOptions(PointRecord point) {
-    MarkerOptions marker = new MarkerOptions();
-    LatLng position = new LatLng(point.getY(), point.getX());
-    marker.position(position);
-    marker.snippet(Integer.toString(point.getId()));
-    marker.icon(BitmapDescriptorFactory.defaultMarker(ZoneMapActivity.POINT_DEFAULT_HUE));
-    marker.draggable(true);
-
-    return marker;
-  }
-
-  public static LatLng buildLatLng(PointRecord point) {
-    return new LatLng(point.getY(), point.getX());
-  }
-
-  public static PolygonOptions buildPolygonOptions(ZoneRecord zoneRecord) {
-    PolygonOptions polygonOptions = new PolygonOptions();
-
-    for(PointRecord point : zoneRecord.getPoints())
-      polygonOptions.add(buildLatLng(point));
-
-    return polygonOptions.fillColor(ZoneMapActivity.ZONE_FILL_COLOR).strokeWidth(ZoneMapActivity.ZONE_STROKE_WIDTH);
-  }
-
-  public static PointRecord buildPointRecord(LatLng point) {
-    PointRecord newPoint =  new PointRecord(-1, -1, point.longitude, point.latitude);
+  public static PointRecord buildPointRecord(IGeoPoint point) {
+    PointRecord newPoint =  new PointRecord(-1, -1, point.getLongitude(), point.getLatitude());
     return newPoint;
   }
 
-  public static PointRecord buildPointRecord(Marker marker) {
-    PointRecord newPoint =  new PointRecord(Integer.parseInt(marker.getSnippet()), -1,
-                                                             marker.getPosition().longitude,
-                                                             marker.getPosition().latitude);
+  public static PointRecord buildPointRecord(MarkerOverlay marker) {
+    PointRecord newPoint =  new PointRecord(marker.getId(), -1,
+                                            marker.getMyLocation().getLongitude(),
+                                            marker.getMyLocation().getLatitude());
     return newPoint;
   }
 
-  public static PointRecord buildPointRecord(MarkerOptions marker) {
-    PointRecord newPoint =  new PointRecord(Integer.parseInt(marker.getSnippet()), -1,
-                                                             marker.getPosition().longitude,
-                                                             marker.getPosition().latitude);
-    return newPoint;
-  }
-  
   public static PointRecord buildPointRecord(Location point) {
     PointRecord newPoint =  new PointRecord(-1, -1, point.getLongitude(), point.getLatitude());
     return newPoint;
   }
 
-  public static ZoneRecord buildZoneRecord(PolygonOptions polygonOptions) {
+  public static ZoneRecord buildZoneRecord(Rect rect) {
     ZoneRecord zoneRecord = new ZoneRecord(-1, "");
-    for(LatLng point : polygonOptions.getPoints()) {
-      zoneRecord.getPoints().add(buildPointRecord(point));
-    }
+    zoneRecord.getPoints().add(buildPointRecord(new GeoPoint(rect.top, rect.left)));
+    zoneRecord.getPoints().add(buildPointRecord(new GeoPoint(rect.bottom, rect.left)));
+    zoneRecord.getPoints().add(buildPointRecord(new GeoPoint(rect.bottom, rect.right)));
+    zoneRecord.getPoints().add(buildPointRecord(new GeoPoint(rect.top, rect.right)));
     return zoneRecord;
   }
 
-  public static ZoneRecord buildZoneRecord(LatLngBounds bounds) {
-    ZoneRecord zoneRecord = new ZoneRecord(-1, "");
-    zoneRecord.getPoints().add(buildPointRecord(bounds.northeast));
-    zoneRecord.getPoints().add(buildPointRecord(new LatLng(bounds.southwest.latitude, bounds.northeast.longitude)));
-    zoneRecord.getPoints().add(buildPointRecord(bounds.southwest));
-    zoneRecord.getPoints().add(buildPointRecord(new LatLng(bounds.northeast.latitude, bounds.southwest.longitude)));
-    return zoneRecord;
+  public static GeoPoint buildCenterGeoPoint(PointRecord[] bounds) {
+    double x0 = bounds[0].getX();
+    double y0 = bounds[0].getY();
+    double x1 = bounds[1].getX();
+    double y1 = bounds[1].getY();
+    double latitude = y0 + ((y1-y0)/2.0);
+    double longitude = x0 + ((x1-x0)/2.0);
+    return new GeoPoint(latitude, longitude);
   }
-
 }

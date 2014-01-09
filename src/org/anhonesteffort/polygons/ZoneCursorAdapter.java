@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
+import org.osmdroid.util.GeoPoint;
 import org.anhonesteffort.polygons.database.ActionDatabase;
 import org.anhonesteffort.polygons.database.DatabaseHelper;
 import org.anhonesteffort.polygons.database.ZoneDatabase;
@@ -57,7 +57,7 @@ public class ZoneCursorAdapter extends CursorAdapter {
     if(lastLocation != null) {
       meters = (int) databaseHelper.getZoneDatabase().distanceBetween(
           GoogleGeometryFactory.buildPointRecord(
-              new LatLng(
+              new GeoPoint(
                   lastLocation.getLatitude(),
                   lastLocation.getLongitude()
               )), zone.getId());

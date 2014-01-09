@@ -16,7 +16,8 @@ repositories {
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:18.0.0'
-    compile 'com.google.android.gms:play-services:+'
+    compile 'org.slf4j:slf4j-android:+'
+    compile 'org.osmdroid:osmdroid-android:4.+'
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 
