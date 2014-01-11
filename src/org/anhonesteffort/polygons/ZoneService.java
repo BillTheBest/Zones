@@ -21,7 +21,7 @@ import org.anhonesteffort.polygons.database.model.PointRecord;
 import org.anhonesteffort.polygons.database.model.ZoneRecord;
 import org.anhonesteffort.polygons.location.BetterLocationListener;
 import org.anhonesteffort.polygons.location.BetterLocationManager;
-import org.anhonesteffort.polygons.map.GoogleGeometryFactory;
+import org.anhonesteffort.polygons.map.OsmGeometryFactory;
 import org.anhonesteffort.polygons.receiver.BroadcastActionLauncher;
 import org.anhonesteffort.polygons.transport.sms.SMSSender;
 
@@ -196,7 +196,7 @@ public class ZoneService extends Service implements
     
     // Otherwise conserve power by only updating location when reasonable.
     else {
-      PointRecord bestPoint = GoogleGeometryFactory.buildPointRecord(bestLocation);
+      PointRecord bestPoint = OsmGeometryFactory.buildPointRecord(bestLocation);
       double device_velocity_mps = AVG_WALKING_VELOCITY_MPS;
       double time_to_polygon_ms = REGULAR_INTERVAL_MS * 2;
       double distance_to_polygon_m = applicationStorage.getZoneDatabase().distanceToClosestZone(bestPoint);

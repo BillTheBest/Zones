@@ -29,13 +29,13 @@ public class MarkerOverlay extends SimpleLocationOverlay {
 
   @Override
   public boolean onSingleTapUp(MotionEvent e, MapView mapView) {
-    mapActivity.onPointClick(GoogleGeometryFactory.buildPointRecord(this));
+    mapActivity.onPointClick(OsmGeometryFactory.buildPointRecord(this));
     return false;
   }
 /*
   @Override
   public void onMarkerDragStart(Marker dragMarker) {
-    mapActivity.onPointMoveStart(GoogleGeometryFactory.buildPointRecord(dragMarker));
+    mapActivity.onPointMoveStart(OsmGeometryFactory.buildPointRecord(dragMarker));
   }
 
   @Override
@@ -45,6 +45,6 @@ public class MarkerOverlay extends SimpleLocationOverlay {
 
   @Override
   public void onMarkerDragEnd(Marker dragMarker) {
-    mapActivity.onPointMoveStop(GoogleGeometryFactory.buildPointRecord(dragMarker));
+    mapActivity.onPointMoveStop(OsmGeometryFactory.buildPointRecord(dragMarker));
   }*/
 }

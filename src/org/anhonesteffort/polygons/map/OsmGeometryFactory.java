@@ -8,7 +8,7 @@ import org.osmdroid.util.GeoPoint;
 import org.anhonesteffort.polygons.database.model.PointRecord;
 import org.anhonesteffort.polygons.database.model.ZoneRecord;
 
-public class GoogleGeometryFactory {
+public class OsmGeometryFactory {
 
   public static PointRecord buildPointRecord(IGeoPoint point) {
     PointRecord newPoint =  new PointRecord(-1, -1, point.getLongitude(), point.getLatitude());

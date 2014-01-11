@@ -14,10 +14,10 @@ import org.anhonesteffort.polygons.database.DatabaseHelper;
 public class ZoneEditCallback implements ActionMode.Callback {
   private static final String TAG = "org.anhonesteffort.polygons.map.ZoneEditCallback";
   private ZoneMapActivity mapActivity;
-  private GoogleZoneMap zoneMap;
+  private OsmZoneMap zoneMap;
   private DatabaseHelper applicationStorage;
 
-  public ZoneEditCallback(ZoneMapActivity mapActivity, GoogleZoneMap zoneMap) {
+  public ZoneEditCallback(ZoneMapActivity mapActivity, OsmZoneMap zoneMap) {
     this.zoneMap = zoneMap;
     this.mapActivity = mapActivity;
     applicationStorage = DatabaseHelper.getInstance(mapActivity.getApplicationContext());

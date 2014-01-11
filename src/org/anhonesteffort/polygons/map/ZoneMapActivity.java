@@ -57,7 +57,7 @@ public class ZoneMapActivity extends SherlockFragmentActivity {
 
   private ZoneRecord selectedZone;
   private PointRecord selectedPoint;
-  private GoogleZoneMap zoneMap;
+  private OsmZoneMap zoneMap;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class ZoneMapActivity extends SherlockFragmentActivity {
     getSupportActionBar().setSubtitle(R.string.menu_title_polygon_map);
 
     databaseHelper = DatabaseHelper.getInstance(getBaseContext());
-    zoneMap = new GoogleZoneMap(this);
+    zoneMap = new OsmZoneMap(this);
     
     newPointsCallback = new NewPointsCallback(this);
     pointEditCallback = new PointEditCallback(this);

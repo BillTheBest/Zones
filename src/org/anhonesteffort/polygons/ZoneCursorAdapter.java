@@ -15,7 +15,7 @@ import org.anhonesteffort.polygons.database.ActionDatabase;
 import org.anhonesteffort.polygons.database.DatabaseHelper;
 import org.anhonesteffort.polygons.database.ZoneDatabase;
 import org.anhonesteffort.polygons.database.model.ZoneRecord;
-import org.anhonesteffort.polygons.map.GoogleGeometryFactory;
+import org.anhonesteffort.polygons.map.OsmGeometryFactory;
 
 /**
  * Programmer: rhodey
@@ -56,7 +56,7 @@ public class ZoneCursorAdapter extends CursorAdapter {
     Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
     if(lastLocation != null) {
       meters = (int) databaseHelper.getZoneDatabase().distanceBetween(
-          GoogleGeometryFactory.buildPointRecord(
+          OsmGeometryFactory.buildPointRecord(
               new GeoPoint(
                   lastLocation.getLatitude(),
                   lastLocation.getLongitude()

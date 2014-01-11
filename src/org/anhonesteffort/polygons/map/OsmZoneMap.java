@@ -32,9 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.String;
 
-public class GoogleZoneMap implements OnCameraChangeListener {
+public class OsmZoneMap implements OnCameraChangeListener {
   
-  private static final String TAG = "GoogleZoneMap";
+  private static final String TAG = "OsmZoneMap";
 
   private DatabaseHelper databaseHelper;
   private ZoneMapActivity mapActivity;
@@ -45,13 +45,13 @@ public class GoogleZoneMap implements OnCameraChangeListener {
   private SparseArray<Polygon> mapPolygons = new SparseArray<Polygon>();
   private List<MarkerOverlay> mapMarkers = new ArrayList<MarkerOverlay>();
 
-  public GoogleZoneMap(ZoneMapActivity mapActivity) {
+  public OsmZoneMap(ZoneMapActivity mapActivity) {
     this.mapActivity = mapActivity;
     databaseHelper = DatabaseHelper.getInstance(mapActivity.getApplicationContext());
     initializeMap();
   }
 
-  // Set up the Google Map and all listeners.
+  // Set up the OSM and all listeners.
   private void initializeMap() {
     if(mapView == null) {
       mapView = (MapView) mapActivity.findViewById(R.id.map);
@@ -66,7 +66,7 @@ public class GoogleZoneMap implements OnCameraChangeListener {
           public boolean onSingleTapConfirmed(MotionEvent e) {
             Log.d(TAG, "onSingleTapConfirmed()");
             GeoPoint clickPoint = getGeoPoint(e);
-            mapActivity.onMapClick(GoogleGeometryFactory.buildPointRecord(clickPoint));
+            mapActivity.onMapClick(OsmGeometryFactory.buildPointRecord(clickPoint));
             return false;
           }
 
@@ -74,7 +74,7 @@ public class GoogleZoneMap implements OnCameraChangeListener {
           public void onLongPress(MotionEvent e) {
             Log.d(TAG, "onLongPress()");
             GeoPoint clickPoint = getGeoPoint(e);
-            mapActivity.onMapLongClick(GoogleGeometryFactory.buildPointRecord(clickPoint));
+            mapActivity.onMapLongClick(OsmGeometryFactory.buildPointRecord(clickPoint));
           }
 
           private GeoPoint getGeoPoint(MotionEvent e) {
@@ -130,7 +130,7 @@ public class GoogleZoneMap implements OnCameraChangeListener {
 
   public void selectPoint(PointRecord point) {
     for(MarkerOverlay marker : mapMarkers) {
-      PointRecord mapPoint = GoogleGeometryFactory.buildPointRecord(marker);
+      PointRecord mapPoint = OsmGeometryFactory.buildPointRecord(marker);
       if(point.getId() == mapPoint.getId())
       {}
         //TODO
@@ -165,7 +165,7 @@ public class GoogleZoneMap implements OnCameraChangeListener {
       return;
 
     // FIXME: there is no 'moveCamera' on osmdroid
-    GeoPoint center = GoogleGeometryFactory.buildCenterGeoPoint(zoneBounds);
+    GeoPoint center = OsmGeometryFactory.buildCenterGeoPoint(zoneBounds);
     map.setCenter(center.getLatitude(), center.getLongitude());
   }
 
@@ -193,7 +193,7 @@ public class GoogleZoneMap implements OnCameraChangeListener {
     mapPolygons.clear();
     map.clear();
 
-    visibleArea = GoogleGeometryFactory.buildZoneRecord(bounds);
+    visibleArea = OsmGeometryFactory.buildZoneRecord(bounds);
     Cursor visibleZones = databaseHelper.getZoneDatabase().getZonesIntersecting(visibleArea);
     ZoneDatabase.Reader zoneReader = new ZoneDatabase.Reader(visibleZones);
 
