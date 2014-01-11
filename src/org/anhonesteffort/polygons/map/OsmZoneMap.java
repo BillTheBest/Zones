@@ -59,42 +59,11 @@ public class OsmZoneMap implements OnCameraChangeListener {
       if(mapView != null) {
         mapView.setMultiTouchControls(true);
         map.setZoom(3);
-
-        //FIXME: ugly, move it somewhere
-        final GestureDetector gd = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){
-          @Override
-          public boolean onSingleTapConfirmed(MotionEvent e) {
-            Log.d(TAG, "onSingleTapConfirmed()");
-            GeoPoint clickPoint = getGeoPoint(e);
-            mapActivity.onMapClick(OsmGeometryFactory.buildPointRecord(clickPoint));
-            return false;
-          }
-
-          @Override
-          public void onLongPress(MotionEvent e) {
-            Log.d(TAG, "onLongPress()");
-            GeoPoint clickPoint = getGeoPoint(e);
-            mapActivity.onMapLongClick(OsmGeometryFactory.buildPointRecord(clickPoint));
-          }
-
-          private GeoPoint getGeoPoint(MotionEvent e) {
-            final int eventX = (int) e.getX();
-            final int eventY = (int) e.getY();
-            final Projection pj = mapView.getProjection();
-            return (GeoPoint) pj.fromPixels(eventX, eventY);
-          }
-        });
-        mapView.setOnTouchListener(new OnTouchListener(){
-          @Override
-          public boolean onTouch(final View v, final MotionEvent e) {
-            return gd.onTouchEvent(e);
-          }
-        });
-
         map.setMyLocationEnabled(true);
         map.setOnCameraChangeListener(this);
+        setGestureDetector();
         
-        //mapView.setOnMarkerDragListener(this);
+        //TODO: mapView.setOnMarkerDragListener(this);
       }
       else {
         Log.e(TAG, "Map failed to load! Why?!");
@@ -111,6 +80,16 @@ public class OsmZoneMap implements OnCameraChangeListener {
         builder.show();
       }
     }
+  }
+
+  private void setGestureDetector() {
+    final GestureDetector gd = new GestureDetector(new MapGestureDetectorListener());
+    mapView.setOnTouchListener(new OnTouchListener(){
+      @Override
+      public boolean onTouch(final View v, final MotionEvent e) {
+        return gd.onTouchEvent(e);
+      }
+    });
   }
 
   public void addPoint(PointRecord point) {
@@ -241,5 +220,33 @@ public class OsmZoneMap implements OnCameraChangeListener {
 
   public static GeoPoint buildGeoPoint(PointRecord point) {
     return new GeoPoint(point.getY(), point.getX());
+  }
+
+  private class MapGestureDetectorListener extends GestureDetector.SimpleOnGestureListener {
+    public MapGestureDetectorListener() {
+      super();
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+      Log.d(TAG, "onSingleTapConfirmed()");
+      GeoPoint clickPoint = getGeoPoint(e);
+      mapActivity.onMapClick(OsmGeometryFactory.buildPointRecord(clickPoint));
+      return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+      Log.d(TAG, "onLongPress()");
+      GeoPoint clickPoint = getGeoPoint(e);
+      mapActivity.onMapLongClick(OsmGeometryFactory.buildPointRecord(clickPoint));
+    }
+
+    private GeoPoint getGeoPoint(MotionEvent e) {
+      final int eventX = (int) e.getX();
+      final int eventY = (int) e.getY();
+      final Projection pj = mapView.getProjection();
+      return (GeoPoint) pj.fromPixels(eventX, eventY);
+    }
   }
 }
