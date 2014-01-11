@@ -154,32 +154,6 @@ public class GoogleZoneMap implements OnCameraChangeListener {
     }
   }
 
-  public int getViewType() {
-    return 0; //googleMap.getMapType();
-  }
-
-  public void setViewType(int type) {
-    //googleMap.setMapType(type);
-  }
-
-  public int changeViewType() {
-/*    switch(googleMap.getMapType()) {
-      case GoogleMap.MAP_TYPE_NORMAL:
-        googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        return GoogleMap.MAP_TYPE_TERRAIN;
-
-      case GoogleMap.MAP_TYPE_TERRAIN:
-        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        return GoogleMap.MAP_TYPE_HYBRID;
-
-      case GoogleMap.MAP_TYPE_HYBRID:
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        return GoogleMap.MAP_TYPE_NORMAL;
-    }
-    return GoogleMap.MAP_TYPE_TERRAIN;*/
-      return 0;
-  }
-
   public void focusOnPoint(PointRecord point, double zoom) {
     map.setCenter(point.getY(), point.getX());
     map.setZoom((float) zoom);

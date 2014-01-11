@@ -5,10 +5,4 @@
         android:icon="@drawable/content_new"
         android:showAsAction="always"
         android:visible="true"/>
-
-    <item
-        android:id="@+id/switch_map_button"
-        android:icon="@drawable/location_map"
-        android:showAsAction="always"
-        android:visible="true"/>
 </menu>

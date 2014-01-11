@@ -40,7 +40,6 @@ public class ZoneMapActivity extends SherlockFragmentActivity {
   public final static String SELECTED_ZONE_ID    = "org.anhonesteffort.polygons.map.SELECTED_ZONE_ID";
   public final static String SELECTED_ZONE_FOCUS = "org.anhonesteffort.polygons.map.SELECTED_ZONE_FOCUS";
   public final static String SELECTED_POINT_ID   = "org.anhonesteffort.polygons.map.SELECTED_POINT_ID";
-  public final static String MAP_TYPE            = "org.anhonesteffort.polygons.map.MAP_TYPE";
 
   private DatabaseHelper databaseHelper;
   private ActionMode actionMode;
@@ -123,7 +122,6 @@ public class ZoneMapActivity extends SherlockFragmentActivity {
     Log.d(TAG, "onSavedInstanceState()");
 
     outState.putInt(SAVED_STATE, myState.ordinal());
-    outState.putInt(MAP_TYPE, zoneMap.getViewType());
 
     if(selectedZone != null)
       outState.putInt(SELECTED_ZONE_ID, selectedZone.getId());
@@ -142,10 +140,6 @@ public class ZoneMapActivity extends SherlockFragmentActivity {
     switch(item.getItemId()) {
       case R.id.new_polygon_button:
         setState(DrawState.NEW_LABEL);
-        break;
-      
-      case R.id.switch_map_button:
-        zoneMap.changeViewType();
         break;
         
       case android.R.id.home:
@@ -239,8 +233,6 @@ public class ZoneMapActivity extends SherlockFragmentActivity {
       return;
     }
 
-    if(instanceState.containsKey(MAP_TYPE))
-      zoneMap.setViewType(instanceState.getInt(MAP_TYPE));
     if(instanceState.containsKey(SELECTED_ZONE_ID))
       selectedZone = databaseHelper.getZoneDatabase().getZone(instanceState.getInt(SELECTED_ZONE_ID));
     if(instanceState.containsKey(SELECTED_ZONE_FOCUS))
