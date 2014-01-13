@@ -43,7 +43,7 @@ public class OsmZoneMap implements OnCameraChangeListener {
   private IMap map;
   private boolean map_loaded = false;
   private SparseArray<Polygon> mapPolygons = new SparseArray<Polygon>();
-  private List<MarkerOverlay> mapMarkers = new ArrayList<MarkerOverlay>();
+  private MapMarkers mapMarkers;
 
   public OsmZoneMap(ZoneMapActivity mapActivity) {
     this.mapActivity = mapActivity;
@@ -57,6 +57,8 @@ public class OsmZoneMap implements OnCameraChangeListener {
       mapView = (MapView) mapActivity.findViewById(R.id.map);
       map = new OsmdroidMapWrapper(mapView);
       if(mapView != null) {
+        mapMarkers = new MapMarkers(mapActivity);
+        mapView.getOverlays().add(mapMarkers);
         mapView.setMultiTouchControls(true);
         map.setZoom(3);
         map.setMyLocationEnabled(true);
@@ -93,28 +95,13 @@ public class OsmZoneMap implements OnCameraChangeListener {
   }
 
   public void addPoint(PointRecord point) {
-    MarkerOverlay marker = buildMarkerOverlay(point);
-    mapView.getOverlays().add(marker);
-    mapView.invalidate();
-    mapMarkers.add(marker);
-  }
-
-  private MarkerOverlay buildMarkerOverlay(PointRecord point) {
     GeoPoint position = new GeoPoint(point.getY(), point.getX());
-    MarkerOverlay marker = new MarkerOverlay(mapActivity);
-    marker.setId(point.getId());
-    marker.setLocation(position);
-    return marker;
+    mapMarkers.addMarker(position, point.getId());
+    mapView.invalidate();
   }
 
   public void selectPoint(PointRecord point) {
-    for(MarkerOverlay marker : mapMarkers) {
-      PointRecord mapPoint = OsmGeometryFactory.buildPointRecord(marker);
-      if(point.getId() == mapPoint.getId())
-      {}
-        //TODO
-        //marker.setIcon(BitmapDescriptorFactory.defaultMarker(ZoneMapActivity.POINT_SELECTED_HUE));
-    }
+    //TODO: mapMarkers.setIcon(point.getId(), BitmapDescriptorFactory.defaultMarker(ZoneMapActivity.POINT_SELECTED_HUE);
   }
 
   public void addZone(ZoneRecord mapZone) {
@@ -187,14 +174,11 @@ public class OsmZoneMap implements OnCameraChangeListener {
       }
     }
     visibleZones.close();
+    mapView.getOverlays().add(mapMarkers);
     mapView.invalidate();
   }
 
   public void clearPoints() {
-    List<Overlay> overlays = mapView.getOverlays();
-    for(Overlay marker : mapMarkers) {
-      overlays.remove(marker);
-    }
     mapMarkers.clear();
     mapView.invalidate();
   }

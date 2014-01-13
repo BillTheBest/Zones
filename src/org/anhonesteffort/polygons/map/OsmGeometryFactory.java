@@ -15,10 +15,8 @@ public class OsmGeometryFactory {
     return newPoint;
   }
 
-  public static PointRecord buildPointRecord(MarkerOverlay marker) {
-    PointRecord newPoint =  new PointRecord(marker.getId(), -1,
-                                            marker.getMyLocation().getLongitude(),
-                                            marker.getMyLocation().getLatitude());
+  public static PointRecord buildPointRecord(final MapMarkers.OverlayMarker marker) {
+    PointRecord newPoint =  new PointRecord(marker.id, -1, marker.getPoint().getLongitude(), marker.getPoint().getLatitude());
     return newPoint;
   }
 
