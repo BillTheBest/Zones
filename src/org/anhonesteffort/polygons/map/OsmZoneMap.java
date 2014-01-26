@@ -193,10 +193,6 @@ public class OsmZoneMap implements OnCameraChangeListener {
     for(PointRecord point : points) {
         geoPoints.add(buildGeoPoint(point));
     }
-    // In the next version of OsmBonuscPack won't be necesary to add the
-    // first point again:
-    // http://code.google.com/p/osmbonuspack/issues/detail?id=46
-    geoPoints.add(buildGeoPoint(points.get(0)));
     polygon.setPoints(geoPoints);
 
     return polygon;
